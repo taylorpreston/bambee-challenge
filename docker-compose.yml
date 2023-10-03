@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  api:
+    container_name: api
+    restart: always
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    volumes:
+    - .:/usr/src
+    environment:
+      - DATABASE_URL='postgres://postgres:postgres@db:5432/mydatabase'
+      - PORT=${PORT}
+
+  db:
+    container_name: postgres
+    image: postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - data:/data/db
+    environment:
+      - DATABASE_URL='postgres://postgres:postgres@db:5432/mydatabase'
+
+volumes: 
+ data: {}
